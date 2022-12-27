@@ -1,0 +1,7 @@
+FROM maven:3.8.6-eclipse-temurin-8-alpine as build
+WORKDIR /app
+COPY . .
+RUN mvn clean package
+
+FROM mahesh1231/tomcat:9.0.70-alpine
+COPY --from=build /app/target/maven-web-application*.war /opt/tomcat/apache-tomcat-9.0.70/webapps/maven-web-application.war
